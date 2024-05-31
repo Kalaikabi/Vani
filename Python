@@ -1,0 +1,304 @@
+def display_file_with_line_numbers(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            lines = file.readlines()
+            for idx, line in enumerate(lines, start=1):
+                print(f"{idx}: {line}", end='')
+    except FileNotFoundError:
+        print(f"Error: The file '{file_path}' was not found.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Example usage
+file_path = 'example.txt'
+display_file_with_line_numbers(file_path)def append_file_contents(source_file, destination_file):
+    try:
+        with open(source_file, 'r') as src:
+            contents = src.read()
+        
+        with open(destination_file, 'a') as dest:
+            dest.write(contents)
+        
+        print(f"Contents of '{source_file}' have been appended to '{destination_file}'.")
+    except FileNotFoundError:
+        print(f"Error: One of the files '{source_file}' or '{destination_file}' was not found.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Example usage
+source_file = 'source.txt'
+destination_file = 'destination.txt'
+append_file_contents(source_file, destination_file)def read_and_sort_student_records(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            records = [line.strip().split(", ") for line in file.readlines()]
+        
+        # Assuming each record is in the format "Name, Age"
+        sorted_records = sorted(records, key=lambda record: record[0])
+        
+        for record in sorted_records:
+            print(f"Name: {record[0]}, Age: {record[1]}")
+    except FileNotFoundError:
+        print(f"Error: The file '{file_path}' was not found.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Example usage
+file_path = 'students.txt'
+read_and_sort_student_records(file_path)def copy_and_convert_to_uppercase(source_file, destination_file):
+    try:
+        with open(source_file, 'r') as src:
+            contents = src.read()
+        
+        # Convert all lowercase characters to uppercase
+        contents_upper = contents.upper()
+        
+        with open(destination_file, 'w') as dest:
+            dest.write(contents_upper)
+        
+        print(f"Contents of '{source_file}' have been copied to '{destination_file}' with all lowercase characters converted to uppercase.")
+    except FileNotFoundError:
+        print(f"Error: The file '{source_file}' was not found.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Example usage
+source_file = 'source.txt'
+destination_file = 'destination.txt'
+copy_and_convert_to_uppercase(source_file, destination_file)def merge_files_alternately(file1, file2, target_file):
+    try:
+        with open(file1, 'r') as f1, open(file2, 'r') as f2:
+            lines1 = f1.readlines()
+            lines2 = f2.readlines()
+        
+        merged_lines = []
+        max_len = max(len(lines1), len(lines2))
+        
+        for i in range(max_len):
+            if i < len(lines1):
+                merged_lines.append(lines1[i])
+            if i < len(lines2):
+                merged_lines.append(lines2[i])
+        
+        with open(target_file, 'w') as target:
+            target.writelines(merged_lines)
+        
+        print(f"Lines from '{file1}' and '{file2}' have been merged alternately into '{target_file}'.")
+    except FileNotFoundError as e:
+        print(f"Error: {e}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Example usage
+file1 = 'file1.txt'
+file2 = 'file2.txt'
+target_file = 'merged.txt'
+merge_files_alternately(file1, file2, target_file)import pickle
+from datetime import datetime
+
+class Employee:
+    def __init__(self, emp_code, emp_name, date_of_joining, salary):
+        self.emp_code = emp_code
+        self.emp_name = emp_name
+        self.date_of_joining = date_of_joining
+        self.salary = salary
+
+    def __str__(self):
+        return (f"Employee Code: {self.emp_code}, "
+                f"Name: {self.emp_name}, "
+                f"Date of Joining: {self.date_of_joining}, "
+                f"Salary: {self.salary}")
+
+# Function to serialize the employee object
+def serialize_employee(employee, filename):
+    try:
+        with open(filename, 'wb') as file:
+            pickle.dump(employee, file)
+        print(f"Employee object has been serialized to '{filename}'")
+    except Exception as e:
+        print(f"An error occurred while serializing: {e}")
+
+# Function to deserialize the employee object
+def deserialize_employee(filename):
+    try:
+        with open(filename, 'rb') as file:
+            employee = pickle.load(file)
+        print(f"Employee object has been deserialized from '{filename}'")
+        return employee
+    except Exception as e:
+        print(f"An error occurred while deserializing: {e}")
+
+# Example usage
+if __name__ == "__main__":
+    emp = Employee('E123', 'John Doe', datetime(2020, 1, 15), 75000)
+    print("Original Employee Object:")
+    print(emp)
+
+    # Serialize the employee object
+    serialize_employee(emp, 'employee.pkl')
+
+    # Deserialize the employee object
+    deserialized_emp = deserialize_employee('employee.pkl')
+    print("Deserialized Employee Object:")
+    print(deserialized_emp)def read_blood_donor_records(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            lines = file.readlines()
+        
+        for line in lines:
+            # Extract fields based on the given format
+            name = line[0:20].strip()
+            address = line[20:60].strip()
+            age = int(line[60:62].strip())
+            blood_type = int(line[62].strip())
+            
+            # Check the conditions for filtering
+            if age < 25 and blood_type == 2:
+                print(f"Name: {name}, Address: {address}, Age: {age}, Blood Type: {blood_type}")
+    except FileNotFoundError:
+        print(f"Error: The file '{file_path}' was not found.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Example usage
+file_path = 'blood_donors.txt'
+read_blood_donor_records(file_path)def store_names_in_file(names, file_path):
+    try:
+        with open(file_path, 'w') as file:
+            for name in names:
+                file.write(name + '\n')
+        print(f"Names have been successfully stored in '{file_path}'.")
+    except Exception as e:
+        print(f"An error occurred while writing to the file: {e}")def display_nth_name(file_path, n):
+    try:
+        with open(file_path, 'r') as file:
+            lines = file.readlines()
+        
+        if 0 < n <= len(lines):
+            print(f"The {n}th name in the list is: {lines[n-1].strip()}")
+        else:
+            print(f"Invalid input. Please enter a number between 1 and {len(lines)}.")
+    except FileNotFoundError:
+        print(f"Error: The file '{file_path}' was not found.")
+    except Exception as e:
+        print(f"An error occurred: {e}")if __name__ == "__main__":
+    student_names = [
+        "Alice Johnson",
+        "Bob Brown",
+        "Charlie Davis",
+        "Diana Evans",
+        "Evan Foster"
+    ]
+    
+    file_path = 'students.txt'
+    
+    # Store the names in the file
+    store_names_in_file(student_names, file_path)
+    
+    # Read the nth name from the user
+    try:
+        n = int(input("Enter the position of the name to display (1-based index): "))
+        display_nth_name(file_path, n)
+    except ValueError:
+        print("Invalid input. Please enter an integer.")def read_master_file(file_path):
+    try:
+        students = []
+        with open(file_path, 'r') as file:
+            for line in file:
+                parts = line.strip().split(', ')
+                roll_number = int(parts[0])
+                name = parts[1]
+                students.append((roll_number, name))
+        return students
+    except FileNotFoundError:
+        print(f"Error: The file '{file_path}' was not found.")
+        return []
+    except Exception as e:
+        print(f"An error occurred while reading the master file: {e}")
+        return []
+
+def read_transaction_file(file_path):
+    try:
+        transactions = []
+        with open(file_path, 'r') as file:
+            for line in file:
+                parts = line.strip().split(', ')
+                roll_number = int(parts[0])
+                action = parts[1]
+                transactions.append((roll_number, action))
+        return transactions
+    except FileNotFoundError:
+        print(f"Error: The file '{file_path}' was not found.")
+        return []
+    except Exception as e:
+        print(f"An error occurred while reading the transaction file: {e}")
+        return []
+
+def update_student_list(students, transactions):
+    updated_students = students[:]
+    
+    for roll_number, action in transactions:
+        if action == 'A':  # Add student
+            updated_students.append((roll_number, "New Student"))
+        elif action == 'D':  # Delete student
+            for student in updated_students:
+                if student[0] == roll_number:
+                    updated_students.remove(student)
+                    break
+    
+    updated_students.sort(key=lambda x: x[0])  # Sort by roll number
+    return updated_students
+
+def write_updated_file(updated_students, file_path):
+    try:
+        with open(file_path, 'w') as file:
+            for roll_number, name in updated_students:
+                file.write(f"{roll_number}, {name}\n")
+        print(f"Updated student list has been written to '{file_path}'.")
+    except Exception as e:
+        print(f"An error occurred while writing the updated file: {e}")
+
+# Example usage
+if __name__ == "__main__":
+    # File paths
+    master_file = 'master.txt'
+    transactions_file = 'transactions.txt'
+    updated_file = 'updated_master.txt'
+    
+    # Read master file
+    students = read_master_file(master_file)
+    if not students:
+        exit()
+    
+    # Read transactions file
+    transactions = read_transaction_file(transactions_file)
+    if not transactions:
+        exit()
+    
+    # Update student list based on transactions
+    updated_students = update_student_list(students, transactions)
+    
+    # Write updated student list to file
+    write_updated_file(updated_students, updated_file)def remove_articles_and_replace(input_file, output_file):
+    try:
+        with open(input_file, 'r') as file:
+            text = file.read()
+        
+        # Remove the words "a", "the", "an" and replace them with a space
+        text_modified = text.replace(" a ", " ").replace(" the ", " ").replace(" an ", " ")
+        
+        with open(output_file, 'w') as file:
+            file.write(text_modified)
+        
+        print(f"Text with articles removed has been written to '{output_file}'.")
+    except FileNotFoundError:
+        print(f"Error: The file '{input_file}' was not found.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Example usage
+if __name__ == "__main__":
+    input_file = 'input.txt'
+    output_file = 'output.txt'
+    
+    remove_articles_and_replace(input_file, output_file)
